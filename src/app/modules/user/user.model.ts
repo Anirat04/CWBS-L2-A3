@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
 import { Schema, model } from "mongoose";
-import { TUser } from "./user.interface";
+import { TUser, UserModel } from "./user.interface";
 import config from "../../config";
 
-const userSchema = new Schema<TUser>(
+const userSchema = new Schema<TUser, UserModel>(
   {
     name: {
       type: String,
@@ -20,6 +20,7 @@ const userSchema = new Schema<TUser>(
     password: {
       type: String,
       required: true,
+      select: 0,
     },
     phone: {
       type: String,
@@ -40,6 +41,12 @@ const userSchema = new Schema<TUser>(
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt timestamps
+    toJSON: {
+      transform: function (doc, ret, options) {
+        delete ret.password; // Remove the password field
+        return ret;
+      },
+    },
   }
 );
 
@@ -57,23 +64,23 @@ userSchema.pre("save", async function (next) {
 });
 
 // set '' after saving password
-userSchema.post("save", function (doc, next) {
-  // doc.password = "";
-  doc.set("password", undefined, { strict: false });
-  // console.log("NEW console:", doc);
-  next();
-});
+// userSchema.post("save", function (doc, next) {
+//   // doc.password = "";
+//   doc.set("password", undefined, { strict: false });
+//   // console.log("NEW console:", doc);
+//   next();
+// });
 
-// userSchema.statics.isUserExistsByCustomId = async function (id: string) {
-//   return await User.findOne({ id }).select("+password");
-// };
+userSchema.statics.isUserExistsByEmail = async function (email: string) {
+  return await User.findOne({ email }).select("+password");
+};
 
-// userSchema.statics.isPasswordMatched = async function (
-//   plainTextPassword,
-//   hashedPassword
-// ) {
-//   return await bcrypt.compare(plainTextPassword, hashedPassword);
-// };
+userSchema.statics.isPasswordMatched = async function (
+  plainTextPassword,
+  hashedPassword
+) {
+  return await bcrypt.compare(plainTextPassword, hashedPassword);
+};
 
 // userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
 //   passwordChangedTimestamp: Date,
@@ -84,4 +91,4 @@ userSchema.post("save", function (doc, next) {
 //   return passwordChangedTime > jwtIssuedTimestamp;
 // };
 
-export const User = model<TUser>("User", userSchema);
+export const User = model<TUser, UserModel>("User", userSchema);

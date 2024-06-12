@@ -3,6 +3,7 @@ import { User } from "./user.model";
 
 const createUserIntoDB = async (payload: TUser) => {
   const newUser = await User.create(payload);
+  console.log(newUser.toJSON());
   return newUser;
 };
 
