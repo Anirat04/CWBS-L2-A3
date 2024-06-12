@@ -16,6 +16,7 @@ const createService = catchAsync(async (req, res) => {
 });
 
 const getAllServices = catchAsync(async (req, res) => {
+  // console.log("test", req.user);
   const result = await ServiceServices.getAllServicesFromDB();
 
   sendResponse(res, {
@@ -39,8 +40,36 @@ const getSingleService = catchAsync(async (req, res) => {
   });
 });
 
+const updateService = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const serviceData = req.body;
+  const result = await ServiceServices.updateServiceInDB(id, serviceData);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Service updated successfully",
+    data: result,
+  });
+});
+
+const deleteService = catchAsync(async (req, res) => {
+  const serviceId = req.params.id;
+
+  const result = await ServiceServices.deleteServiceFromDB(serviceId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Service deleted successfully",
+    data: result,
+  });
+});
+
 export const ServiceControllers = {
   createService,
   getAllServices,
   getSingleService,
+  updateService,
+  deleteService,
 };
