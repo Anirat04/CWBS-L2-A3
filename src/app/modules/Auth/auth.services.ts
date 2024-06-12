@@ -11,6 +11,13 @@ const loginUser = async (payload: TLoginUser) => {
   console.log(payload);
   // checking if the user is exist
   const user = await User.isUserExistsByEmail(payload.email);
+  //   console.log(user);
+  let getLoggedInUser = JSON.parse(JSON.stringify(user));
+  if (user) {
+    delete getLoggedInUser.password;
+    delete getLoggedInUser.__v;
+  }
+  //   console.log("This is user without password:", getLoggedInUser);
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "This user is not found !");
@@ -31,6 +38,8 @@ const loginUser = async (payload: TLoginUser) => {
     expiresIn: "10d",
   });
 
+  //   const getLoggedInUser = await User.findBy
+
   //   const accessToken = createToken(
   //     // jwtPayload,
   //     config.jwt_access_secret as string,
@@ -45,6 +54,7 @@ const loginUser = async (payload: TLoginUser) => {
 
   return {
     accessToken,
+    getLoggedInUser,
     // refreshToken
   };
 };
