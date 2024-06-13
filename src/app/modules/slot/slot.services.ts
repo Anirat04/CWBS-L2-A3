@@ -1,6 +1,6 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import { TSlot } from "./slot.interface";
+import { TSlot, TSlotQueryParams } from "./slot.interface";
 import { Slot } from "./slot.model";
 import { ServiceServices } from "../service/service.services";
 
@@ -90,6 +90,22 @@ const createSlotsIntoDB = async (payload: TSlot) => {
   return newSlots;
 };
 
+const getAvailableSlotsFromDB = async (payload: TSlotQueryParams) => {
+  const query: { date?: string; service?: string } = {};
+  if (payload?.date) {
+    query.date = payload.date;
+  }
+  if (payload?.serviceId) {
+    query.service = payload.serviceId;
+  }
+
+  const availableSlots = await Slot.find(query).populate("service");
+
+  console.log("Payload From Service", payload);
+  return availableSlots;
+};
+
 export const SlotServices = {
   createSlotsIntoDB,
+  getAvailableSlotsFromDB,
 };

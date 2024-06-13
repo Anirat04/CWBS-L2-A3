@@ -9,10 +9,17 @@ import { SlotControllers } from "./slot.controllers";
 const router = express.Router();
 
 router.post(
-  "/",
+  "/slots",
   //   auth(USER_ROLE.admin),
   validateRequest(SlotValidation.slotValidationSchema),
   SlotControllers.createSlots
+);
+
+router.get(
+  "/availability",
+  //   auth(USER_ROLE.admin),
+  // validateRequest(SlotValidation.slotValidationSchema),
+  SlotControllers.getAvailableSlots
 );
 
 export const SlotRoutes = router;

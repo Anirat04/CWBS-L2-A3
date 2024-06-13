@@ -2,6 +2,7 @@ import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { SlotServices } from "./slot.services";
+import { TSlotQueryParams } from "./slot.interface";
 
 const createSlots = catchAsync(async (req, res) => {
   const slotData = req.body;
@@ -15,6 +16,26 @@ const createSlots = catchAsync(async (req, res) => {
   });
 });
 
+const getAvailableSlots = catchAsync(async (req, res) => {
+  const { date, serviceId } = req.query;
+
+  const queryParams: TSlotQueryParams = {
+    date: date as string,
+    serviceId: serviceId as string,
+  };
+
+  console.log("params: ", req.query);
+  const result = await SlotServices.getAvailableSlotsFromDB(queryParams);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Available slots retrieved successfully",
+    data: result,
+  });
+});
+
 export const SlotControllers = {
   createSlots,
+  getAvailableSlots,
 };

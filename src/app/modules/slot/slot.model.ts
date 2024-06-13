@@ -6,6 +6,7 @@ const slotSchema = new Schema<TSlot>(
     service: {
       type: String,
       required: true,
+      ref: "Service",
     },
     date: {
       type: String,

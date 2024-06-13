@@ -5,3 +5,8 @@ export interface TSlot {
   endTime: string;
   isBooked?: "available" | "booked" | "canceled";
 }
+
+export interface TSlotQueryParams {
+  date?: string;
+  serviceId?: string;
+}
