@@ -8,10 +8,23 @@ import { BookingControllers } from "./booking.controllers";
 const router = express.Router();
 // Book a service
 router.post(
-  "/",
+  "/bookings",
   auth(USER_ROLE.user),
   validateRequest(BookingValidation.bookingValidationSchema),
   BookingControllers.createBooking
 );
+router.get(
+  "/bookings",
+  auth(USER_ROLE.admin),
+  // validateRequest(BookingValidation.bookingValidationSchema),
+  BookingControllers.getAllBookings
+);
+
+// router.get(
+//   "/my-bookings",
+//   auth(USER_ROLE.admin),
+//   // validateRequest(BookingValidation.bookingValidationSchema),
+//   BookingControllers.getAllBookings
+// );
 
 export const BookingRoutes = router;
