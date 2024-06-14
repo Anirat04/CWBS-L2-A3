@@ -1,6 +1,5 @@
-import bcrypt from "bcrypt";
 import httpStatus from "http-status";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import AppError from "../../errors/AppError";
 import { User } from "../user/user.model";
 import { TLoginUser } from "./auth.interface";
@@ -38,24 +37,9 @@ const loginUser = async (payload: TLoginUser) => {
     expiresIn: "10d",
   });
 
-  //   const getLoggedInUser = await User.findBy
-
-  //   const accessToken = createToken(
-  //     // jwtPayload,
-  //     config.jwt_access_secret as string,
-  //     config.jwt_access_expires_in as string
-  //   );
-
-  //   const refreshToken = createToken(
-  //     jwtPayload,
-  //     config.jwt_refresh_secret as string,
-  //     config.jwt_refresh_expires_in as string
-  //   );
-
   return {
     accessToken,
     getLoggedInUser,
-    // refreshToken
   };
 };
 

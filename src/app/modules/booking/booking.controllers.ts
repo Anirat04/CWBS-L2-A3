@@ -2,8 +2,6 @@ import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { BookingServices } from "./booking.services";
-import { User } from "../user/user.model";
-import { TBooking } from "./booking.interface";
 
 const createBooking = catchAsync(async (req, res) => {
   const bookingData = req.body;
