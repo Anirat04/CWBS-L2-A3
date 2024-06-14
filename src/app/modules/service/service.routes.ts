@@ -24,6 +24,7 @@ router.get(
 // Get Single Service
 router.get("/:id", ServiceControllers.getSingleService);
 
+// Update a Single Service
 router.put(
   "/:id",
   auth(USER_ROLE.admin),

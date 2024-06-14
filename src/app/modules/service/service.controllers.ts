@@ -19,12 +19,21 @@ const getAllServices = catchAsync(async (req, res) => {
   // console.log("test", req.user);
   const result = await ServiceServices.getAllServicesFromDB();
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Services retrieved successfully",
-    data: result,
-  });
+  if (result.length === 0) {
+    sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: "No Data Found",
+      data: [],
+    });
+  } else {
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Services retrieved successfully",
+      data: result,
+    });
+  }
 });
 
 const getSingleService = catchAsync(async (req, res) => {
@@ -32,12 +41,21 @@ const getSingleService = catchAsync(async (req, res) => {
 
   const result = await ServiceServices.getSingleServiceFromDB(serviceId);
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Service retrieved successfully",
-    data: result,
-  });
+  if (result === null) {
+    sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: "No Data Found",
+      data: [],
+    });
+  } else {
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Service retrieved successfully",
+      data: result,
+    });
+  }
 });
 
 const updateService = catchAsync(async (req, res) => {

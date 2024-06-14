@@ -60,14 +60,34 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     ];
   }
 
+  let errorObject = {};
+  if (err instanceof ZodError) {
+    errorObject = {
+      success: false,
+      statusCode: statusCode,
+      message,
+      errorMessages,
+      // err,
+      stack: config.node_env === "development" ? err?.stack : null,
+    };
+  } else {
+    errorObject = {
+      success: false,
+      statusCode: statusCode,
+      message,
+    };
+  }
+
   //ultimate return
-  return res.status(statusCode).json({
-    success: false,
-    message,
-    errorMessages,
-    // err,
-    stack: config.node_env === "development" ? err?.stack : null,
-  });
+  return res.status(statusCode).json(errorObject);
+  // return res.status(statusCode).json({
+  //   success: false,
+  //   statusCode: statusCode,
+  //   message,
+  //   errorMessages,
+  //   // err,
+  //   stack: config.node_env === "development" ? err?.stack : null,
+  // });
 };
 
 export default globalErrorHandler;

@@ -20,11 +20,11 @@ router.get(
   BookingControllers.getAllBookings
 );
 
-// router.get(
-//   "/my-bookings",
-//   auth(USER_ROLE.admin),
-//   // validateRequest(BookingValidation.bookingValidationSchema),
-//   BookingControllers.getAllBookings
-// );
+router.get(
+  "/my-bookings",
+  auth(USER_ROLE.user),
+  // validateRequest(BookingValidation.bookingValidationSchema),
+  BookingControllers.getMyBookings
+);
 
 export const BookingRoutes = router;

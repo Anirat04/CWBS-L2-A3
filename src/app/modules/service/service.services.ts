@@ -16,6 +16,10 @@ const getAllServicesFromDB = async () => {
 // TODO: Prevent getting deleted service while getting it by ID
 const getSingleServiceFromDB = async (id: string) => {
   const singleService = await Service.findById(id);
+  if (singleService?.isDeleted) {
+    throw new AppError(httpStatus.NOT_FOUND, "The Service has been deleted");
+  }
+
   return singleService;
 };
 

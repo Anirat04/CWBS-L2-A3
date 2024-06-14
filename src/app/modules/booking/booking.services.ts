@@ -6,6 +6,7 @@ import { TBookingPayload } from "./booking.interface";
 import { Booking } from "./booking.model";
 import { Slot } from "../slot/slot.model";
 
+// TODO: Check if slot is booked
 const createBookingServiceIntoDB = async (
   payload: TBookingPayload,
   userEmail: string
@@ -69,6 +70,7 @@ const createBookingServiceIntoDB = async (
   return newBooking;
 };
 
+// TODO: No data found
 const getAllBookingsFromDB = async () => {
   const allBookings = await Booking.find().populate([
     "customer",
@@ -78,7 +80,22 @@ const getAllBookingsFromDB = async () => {
   return allBookings;
 };
 
+const getMyBookingsFromDB = async (userEmail: string) => {
+  const getCustomer = await User.findOne({ email: userEmail }).select([
+    "-role",
+    "-createdAt",
+    "-updatedAt",
+    "-__v",
+  ]);
+
+  const myBookings = await Booking.find({
+    customer: getCustomer?._id,
+  }).populate(["customer", "service", "slot"]);
+  return myBookings;
+};
+
 export const BookingServices = {
   createBookingServiceIntoDB,
   getAllBookingsFromDB,
+  getMyBookingsFromDB,
 };

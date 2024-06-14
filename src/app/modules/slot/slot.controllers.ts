@@ -27,6 +27,15 @@ const getAvailableSlots = catchAsync(async (req, res) => {
   console.log("params: ", req.query);
   const result = await SlotServices.getAvailableSlotsFromDB(queryParams);
 
+  if (result.length === 0) {
+    sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: "No Data Found",
+      data: result,
+    });
+  }
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
