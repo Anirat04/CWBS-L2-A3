@@ -90,7 +90,21 @@ const getMyBookingsFromDB = async (userEmail: string) => {
 
   const myBookings = await Booking.find({
     customer: getCustomer?._id,
-  }).populate(["customer", "service", "slot"]);
+  })
+    .populate(["service", "slot"])
+    .lean();
+
+  // Remove the customer field from each booking
+  // const sanitizedBookings = myBookings.map((booking) => {
+  //   const bookingObject = booking.toObject();
+  //   delete bookingObject?.customer;
+  //   return bookingObject;
+  // });
+  myBookings.forEach((booking) => {
+    delete booking.customer;
+  });
+
+  // return sanitizedBookings;
   return myBookings;
 };
 

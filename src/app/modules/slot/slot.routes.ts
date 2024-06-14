@@ -18,11 +18,6 @@ router.post(
   SlotControllers.createSlots
 );
 
-router.get(
-  "/availability",
-  //   auth(USER_ROLE.admin),
-  // validateRequest(SlotValidation.slotValidationSchema),
-  SlotControllers.getAvailableSlots
-);
+router.get("/availability", SlotControllers.getAvailableSlots);
 
 export const SlotRoutes = router;

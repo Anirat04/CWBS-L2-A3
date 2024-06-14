@@ -19,7 +19,7 @@ export interface TBookingPayload {
 }
 
 export interface TBooking {
-  customer: string;
+  customer?: string;
   service: string;
   slot: string;
   vehicleType:
