@@ -14,7 +14,7 @@ https://cwbs-l2-a3.vercel.app/Insert
 
 ## Project Overview
 
-**Project Name** is a backend application designed to [insert brief description of the project's purpose]. It leverages modern web development technologies to provide a robust, scalable, and maintainable codebase.
+**Car Wash Booking System** is a backend application designed to [insert brief description of the project's purpose]. It leverages modern web development technologies to provide a robust, scalable, and maintainable codebase.
 
 ## Features
 
